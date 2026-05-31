@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SMAN 20 Batam</title>
+  <title>SMP Negeri 65 batam</title>
   <meta name="description" content="Halaman pengumuman kelulusan siswa." />
   <style>
     :root {
@@ -5895,12 +5895,145 @@
     }
 
 
-
-    /* Public-only mode: menu/login admin disembunyikan agar link hanya untuk cek kelulusan. */
-    #adminBtn,
-    #adminView {
-      display: none !important;
+    /* v16 cinematic reveal patch:
+       Transisi dibuat sangat halus dan pelan agar pengalaman membuka surat terasa indah,
+       bukan terburu-buru. Patch ini diletakkan paling akhir agar menimpa durasi lama. */
+    :root {
+      --ease-cinematic: cubic-bezier(.16, 1, .22, 1);
+      --ease-cinematic-soft: cubic-bezier(.19, 1, .22, 1);
+      --ease-cinematic-letter: cubic-bezier(.22, 1, .28, 1);
     }
+
+    .view {
+      animation-duration: .82s !important;
+      animation-timing-function: var(--ease-cinematic) !important;
+    }
+
+    .reveal-stage {
+      animation-duration: 1.05s !important;
+      animation-timing-function: var(--ease-cinematic) !important;
+      transition:
+        padding 2.1s var(--ease-cinematic),
+        max-width 2.1s var(--ease-cinematic),
+        background 2.1s var(--ease-cinematic),
+        box-shadow 2.1s var(--ease-cinematic) !important;
+    }
+
+    .reveal-stage.is-leaving {
+      animation-duration: .82s !important;
+      animation-timing-function: var(--ease-cinematic) !important;
+    }
+
+    .stage-title,
+    .stage-copy,
+    .verification-dots {
+      transition:
+        opacity 1.55s var(--ease-cinematic),
+        transform 1.55s var(--ease-cinematic),
+        margin 1.55s var(--ease-cinematic),
+        max-height 1.55s var(--ease-cinematic),
+        color 1.55s var(--ease-cinematic) !important;
+    }
+
+    .reveal-stage.is-verifying .envelope {
+      animation: envelopeIdleBreath 5.2s ease-in-out infinite !important;
+    }
+
+    .reveal-stage.is-verifying .seal {
+      animation: sealIdlePulse 4.2s ease-in-out infinite !important;
+    }
+
+    .reveal-stage.is-verified .seal {
+      animation: sealReadyGlow 2.35s ease-in-out both !important;
+    }
+
+    .envelope-wrap {
+      transition:
+        height 3.25s var(--ease-cinematic),
+        min-height 3.25s var(--ease-cinematic) !important;
+    }
+
+    .envelope {
+      transition:
+        transform 2.75s var(--ease-cinematic),
+        filter 2.55s var(--ease-cinematic),
+        opacity 1.8s var(--ease-cinematic) !important;
+    }
+
+    .env-flap {
+      transition:
+        transform 3.25s .65s var(--ease-cinematic-soft),
+        filter 2.75s .65s var(--ease-cinematic) !important;
+    }
+
+    .seal {
+      transition:
+        opacity 1.75s .35s var(--ease-cinematic),
+        transform 2.05s .32s var(--ease-cinematic),
+        filter 1.75s .35s var(--ease-cinematic) !important;
+    }
+
+    .env-letter {
+      transition:
+        transform 4.15s 1.95s var(--ease-cinematic-letter),
+        opacity 2.05s 2.25s ease-out,
+        box-shadow 2.35s 1.95s var(--ease-cinematic),
+        visibility 0s linear 1.95s !important;
+    }
+
+    .envelope.is-open .env-letter {
+      transition:
+        transform 4.15s 1.95s var(--ease-cinematic-letter),
+        opacity 2.05s 2.25s ease-out,
+        box-shadow 2.35s 1.95s var(--ease-cinematic),
+        visibility 0s linear 0s !important;
+    }
+
+    .letter-content {
+      transition:
+        opacity 2.25s 3.9s var(--ease-cinematic),
+        transform 2.45s 3.9s var(--ease-cinematic-letter) !important;
+    }
+
+    .reveal-stage.has-result {
+      transition:
+        padding 2.25s var(--ease-cinematic),
+        max-width 2.25s var(--ease-cinematic),
+        background 2.25s var(--ease-cinematic),
+        box-shadow 2.25s var(--ease-cinematic) !important;
+    }
+
+    .reveal-stage.has-result .env-back,
+    .reveal-stage.has-result .env-flap,
+    .reveal-stage.has-result .env-left,
+    .reveal-stage.has-result .env-right,
+    .reveal-stage.has-result .env-bottom,
+    .reveal-stage.has-result .env-front,
+    .reveal-stage.has-result .seal {
+      transition:
+        opacity 1.75s var(--ease-cinematic),
+        visibility 0s linear 1.75s,
+        transform 1.95s var(--ease-cinematic),
+        filter 1.75s var(--ease-cinematic) !important;
+    }
+
+    .reveal-stage.has-result .envelope.is-open .env-letter {
+      transition:
+        box-shadow 2.1s var(--ease-cinematic),
+        border-radius 2.1s var(--ease-cinematic),
+        padding 2.1s var(--ease-cinematic),
+        opacity 1.85s var(--ease-cinematic) !important;
+    }
+
+    .btn,
+    .input,
+    .select,
+    .textarea,
+    tbody tr,
+    .tab-btn {
+      transition-duration: .34s !important;
+    }
+
   </style>
 </head>
 <body>
@@ -5910,13 +6043,13 @@
         <div class="brand">
           <div class="brand-mark" aria-hidden="true">SL</div>
           <div class="brand-copy">
-            <b id="navSchoolName">SMAN 20 Batam</b>
+            <b id="navSchoolName">SMP Negeri 65 batam</b>
             <span id="navYear">Pengumuman Kelulusan 2025/2026</span>
           </div>
         </div>
         <div class="nav-actions">
           <button class="btn btn-ghost btn-small hidden" id="homeBtn" type="button">Beranda</button>
-          <button class="btn btn-ghost btn-small hidden" id="adminBtn" type="button" hidden aria-hidden="true" tabindex="-1" style="display: none !important;">Admin</button>
+          <button class="btn btn-ghost btn-small" id="adminBtn" type="button">Admin</button>
         </div>
       </div>
     </header>
@@ -6059,13 +6192,13 @@
                   </div>
                   <div class="field">
                     <label for="logoInput">Logo Sekolah</label>
-                    <input class="input" id="logoInput" type="url" value="https://sman20batam.sch.id/wp-content/uploads/2022/11/logo_sma_20_page-0001-removebg-preview-e1667710810711.png" placeholder="https://sman20batam.sch.id/wp-content/uploads/2022/11/logo_sma_20_page-0001-removebg-preview-e1667710810711.png" />
-                    <small>Tempel URL logo sekolah. Default: https://sman20batam.sch.id/wp-content/uploads/2022/11/logo_sma_20_page-0001-removebg-preview-e1667710810711.png</small>
+                    <input class="input" id="logoInput" type="url" value="https://i.ibb.co.com/Hf4cQ7Sp/Whats-App-Image-2026-05-31-at-20-58-18.png" placeholder="https://i.ibb.co.com/Hf4cQ7Sp/Whats-App-Image-2026-05-31-at-20-58-18.png" />
+                    <small>Tempel URL logo sekolah. Default: https://i.ibb.co.com/Hf4cQ7Sp/Whats-App-Image-2026-05-31-at-20-58-18.png</small>
                   </div>
                   <div class="field">
                     <label for="provinceLogoUrlInput">Link Logo Provinsi</label>
-                    <input class="input" id="provinceLogoUrlInput" type="url" placeholder="https://contoh.sch.id/logo-provinsi.png" />
-                    <small>Tempel URL logo provinsi untuk mengganti inisial di kotak logo header. Kosongkan untuk kembali ke inisial sekolah.</small>
+                    <input class="input" id="provinceLogoUrlInput" type="url" placeholder="https://upload.wikimedia.org/wikipedia/commons/5/53/Lambang_Kota_Batam.png" />
+                    <small>Tempel URL logo kota/provinsi untuk kotak logo kiri atas/header. Jika dikosongkan, sistem memakai logo default yang tersimpan.</small>
                   </div>
                   <div class="field">
                     <label for="announcementOpenAtInput">Waktu Buka Pengumuman (WIB)</label>
@@ -6253,22 +6386,24 @@
       const STORAGE_STUDENTS = "sealed-envelope-graduation.students.v1";
       const STORAGE_CONFIG = "sealed-envelope-graduation.config.v1";
       const DEFAULT_ADMIN_PASSWORD_HASH = "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9";
-      const PUBLIC_ONLY_MODE = true; // Mode publik: fitur/menu admin dinonaktifkan.
       const PUBLIC_DB_URL = "students.db";
       const SQLJS_CDN_BASE = "https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/";
 
       const DEFAULT_ANNOUNCEMENT_OPEN_AT = "2026-05-04T17:00";
-      const DEFAULT_SCHOOL_NAME = "SMAN 20 Batam";
+      const DEFAULT_SCHOOL_NAME = "SMP Negeri 65 batam";
       const DEFAULT_ACADEMIC_YEAR = "2025/2026";
-      const DEFAULT_SCHOOL_LOGO_URL = "https://sman20batam.sch.id/wp-content/uploads/2022/11/logo_sma_20_page-0001-removebg-preview-e1667710810711.png";
-      const DEFAULT_PROVINCE_LOGO_URL = "https://upload.wikimedia.org/wikipedia/commons/5/54/Coat_of_arms_of_Riau_Islands.svg";
-      const LEGACY_DEFAULT_SCHOOL_NAMES = ["SMA Negeri 1 Jakarta"];
+      const DEFAULT_PRINCIPAL_NAME = "Neli Evawati, S.Pd, M.Pd";
+      const DEFAULT_SCHOOL_LOGO_URL = "https://i.ibb.co.com/Hf4cQ7Sp/Whats-App-Image-2026-05-31-at-20-58-18.png";
+      const DEFAULT_PROVINCE_LOGO_URL = "https://upload.wikimedia.org/wikipedia/commons/5/53/Lambang_Kota_Batam.png";
+      const LEGACY_DEFAULT_SCHOOL_NAMES = ["SMA Negeri 1 Jakarta", "SMAN 20 Batam"];
       const LEGACY_DEFAULT_ACADEMIC_YEARS = ["2024/2025"];
+      const LEGACY_DEFAULT_SCHOOL_LOGO_URLS = [DEFAULT_SCHOOL_LOGO_URL];
+      const LEGACY_DEFAULT_PROVINCE_LOGO_URLS = [DEFAULT_PROVINCE_LOGO_URL];
 
       const defaultConfig = {
         schoolName: DEFAULT_SCHOOL_NAME,
         academicYear: DEFAULT_ACADEMIC_YEAR,
-        principalName: "",
+        principalName: DEFAULT_PRINCIPAL_NAME,
         logoData: DEFAULT_SCHOOL_LOGO_URL,
         provinceLogoUrl: DEFAULT_PROVINCE_LOGO_URL,
         announcementOpenAt: DEFAULT_ANNOUNCEMENT_OPEN_AT,
@@ -6398,28 +6533,14 @@
       function init() {
         applyConfig();
         bindEvents();
-        disableAdminInterface();
         renderStudentsTable();
         updateAnnouncementState();
         databaseReady = loadPublicDatabase();
         announcementTimer = setInterval(updateAnnouncementState, 1000);
       }
 
-      function disableAdminInterface() {
-        if (!PUBLIC_ONLY_MODE) return;
-        adminLoggedIn = false;
-        refs.adminBtn?.remove();
-        refs.adminView?.remove();
-        refs.homeBtn?.classList.add("hidden");
-        document.body.classList.remove("admin-mode");
-        document.documentElement.classList.remove("admin-mode");
-        if (window.location.hash && window.location.hash.toLowerCase().includes("admin")) {
-          history.replaceState(null, "", window.location.pathname + window.location.search);
-        }
-      }
-
       function bindEvents() {
-        refs.adminBtn?.addEventListener("click", showAdmin);
+        refs.adminBtn.addEventListener("click", showAdmin);
         refs.homeBtn.addEventListener("click", showHome);
         refs.cancelLoginBtn.addEventListener("click", showHome);
         refs.logoutBtn.addEventListener("click", logout);
@@ -6427,11 +6548,12 @@
         refs.searchForm.addEventListener("submit", handleSearch);
         refs.settingsForm.addEventListener("submit", saveSettings);
         refs.clearLogoBtn.addEventListener("click", () => {
-          config.logoData = "";
-          refs.logoInput.value = "";
+          config.logoData = DEFAULT_SCHOOL_LOGO_URL;
+          config.schoolLogoUrl = DEFAULT_SCHOOL_LOGO_URL;
+          refs.logoInput.value = DEFAULT_SCHOOL_LOGO_URL;
           persistConfig();
           applyConfig();
-          toast("URL logo sekolah dikosongkan dari pengaturan.", "info", "URL Logo Dikosongkan");
+          toast("URL logo sekolah dikembalikan ke logo SMP Negeri 65 Batam.", "info", "Logo Dipulihkan");
         });
 
         $$(".tab-btn").forEach((btn) => btn.addEventListener("click", () => activateTab(btn.dataset.tab)));
@@ -6485,10 +6607,6 @@
       }
 
       function showAdmin() {
-        if (PUBLIC_ONLY_MODE) {
-          showHome();
-          return;
-        }
         refs.studentView.classList.add("hidden");
         refs.adminView.classList.remove("hidden");
         refs.homeBtn.classList.remove("hidden");
@@ -6574,7 +6692,9 @@
         config.schoolName = refs.schoolNameInput.value.trim() || defaultConfig.schoolName;
         config.academicYear = refs.academicYearInput.value.trim() || defaultConfig.academicYear;
         config.principalName = refs.principalInput.value.trim();
-        config.logoData = refs.logoInput.value.trim();
+        config.logoData = refs.logoInput.value.trim() || DEFAULT_SCHOOL_LOGO_URL;
+        config.schoolLogoUrl = config.logoData;
+        refs.logoInput.value = config.logoData;
         if (config.logoData && !isValidUrl(config.logoData)) {
           toast("Tempel URL logo sekolah yang valid, diawali http:// atau https://.", "error", "URL Logo Tidak Valid");
           refs.logoInput.focus();
@@ -6644,7 +6764,7 @@
         refs.stageCopy.textContent = "Kunci sudah ditekan. Data siswa dicek terlebih dahulu sebelum amplop dibuka.";
         refs.revealStage.scrollIntoView({ behavior: "smooth", block: "center" });
 
-        await wait(1350);
+        await wait(2500);
         await databaseReady;
         const found = findStudentRecord(nisn);
 
@@ -6663,25 +6783,25 @@
         currentStudent = found;
         renderLetterResult(found);
         refs.stageTitle.textContent = "Data valid";
-        refs.stageCopy.textContent = "Data cocok. Amplop akan dibuka perlahan untuk menampilkan surat resmi.";
+        refs.stageCopy.textContent = "Data cocok. Amplop akan dibuka perlahan dan halus untuk menampilkan surat resmi.";
         refs.revealStage.classList.remove("is-verifying");
         refs.revealStage.classList.add("is-verified");
 
-        await wait(750);
+        await wait(1500);
         refs.stageTitle.textContent = "Segel amplop dibuka...";
-        refs.stageCopy.textContent = "Verifikasi berhasil. Surat pengumuman kelulusan sedang dikeluarkan dari amplop.";
+        refs.stageCopy.textContent = "Verifikasi berhasil. Surat pengumuman kelulusan sedang dikeluarkan perlahan dari amplop.";
         refs.revealStage.classList.remove("is-verified");
         refs.revealStage.classList.add("is-opening");
         refs.envelope.classList.add("is-open");
 
-        await wait(2850);
+        await wait(6500);
         refs.revealStage.classList.add("has-result");
 
-        await wait(240);
+        await wait(900);
         fitLetterToViewport();
         refs.revealStage.scrollIntoView({ behavior: "smooth", block: "start" });
 
-        await wait(650);
+        await wait(1600);
         refs.revealStage.classList.remove("is-opening");
         refs.searchBtn.disabled = false;
         refs.searchBtn.removeAttribute("aria-busy");
@@ -6729,7 +6849,7 @@
         if (date) {
           refs.announcementNotice.classList.remove("hidden");
           refs.announcementNotice.innerHTML = locked
-            ? `<span>Pengumuman akan dibuka pada <b>${escapeHTML(formatLongDateTime(date))}</b>. Form cek kelulusan akan aktif otomatis sesuai jadwal.</span>`
+            ? `<span>Pengumuman akan dibuka pada <b>${escapeHTML(formatLongDateTime(date))}</b>. Semua akses siswa dinonaktifkan sementara; login admin tetap dapat digunakan.</span>`
             : `<span>Pengumuman sudah dibuka sejak <b>${escapeHTML(formatLongDateTime(date))}</b>.</span>`;
         } else {
           refs.announcementNotice.classList.add("hidden");
@@ -7645,7 +7765,7 @@
         if (mark) {
           mark.classList.toggle("has-image", Boolean(provinceLogoUrl));
           mark.innerHTML = provinceLogoUrl
-            ? `<img src="${escapeHTML(provinceLogoUrl)}" alt="Logo Provinsi" loading="lazy" referrerpolicy="no-referrer" />`
+            ? `<img src="${escapeHTML(provinceLogoUrl)}" alt="Logo Kota/Provinsi" loading="lazy" referrerpolicy="no-referrer" />`
             : escapeHTML(initials);
         }
         if (refs.dashboardMeta) refs.dashboardMeta.textContent = `${students.length} data siswa tersimpan • ${config.schoolName}`;
@@ -7685,14 +7805,30 @@
           shouldPersistNormalizedConfig = true;
         }
 
-        const schoolLogoUrl = String(mergedConfig.logoData || "").trim();
-        if (!schoolLogoUrl) {
-          mergedConfig.logoData = DEFAULT_SCHOOL_LOGO_URL;
+        const principalName = String(mergedConfig.principalName || "").trim();
+        if (!principalName) {
+          mergedConfig.principalName = DEFAULT_PRINCIPAL_NAME;
           shouldPersistNormalizedConfig = true;
+        } else {
+          mergedConfig.principalName = principalName;
+        }
+
+        const schoolLogoUrl = String(mergedConfig.logoData || mergedConfig.schoolLogoUrl || "").trim();
+        const normalizedSchoolLogoUrl = schoolLogoUrl.toLowerCase();
+        const isKnownLegacySchoolLogo = normalizedSchoolLogoUrl.includes("sman" + "20batam.sch.id") || normalizedSchoolLogoUrl.includes("logo_sma_" + "20");
+        if (!schoolLogoUrl || isKnownLegacySchoolLogo || LEGACY_DEFAULT_SCHOOL_LOGO_URLS.includes(schoolLogoUrl)) {
+          mergedConfig.logoData = DEFAULT_SCHOOL_LOGO_URL;
+          mergedConfig.schoolLogoUrl = DEFAULT_SCHOOL_LOGO_URL;
+          shouldPersistNormalizedConfig = true;
+        } else {
+          mergedConfig.logoData = schoolLogoUrl;
+          mergedConfig.schoolLogoUrl = schoolLogoUrl;
         }
 
         const provinceLogoUrl = String(mergedConfig.provinceLogoUrl || "").trim();
-        if (!provinceLogoUrl) {
+        const normalizedProvinceLogoUrl = provinceLogoUrl.toLowerCase();
+        const isKnownLegacyProvinceLogo = normalizedProvinceLogoUrl.includes("coat_" + "of_arms_" + "of_riau_islands") || normalizedProvinceLogoUrl.includes("commons/5/54/");
+        if (!provinceLogoUrl || isKnownLegacyProvinceLogo || LEGACY_DEFAULT_PROVINCE_LOGO_URLS.includes(provinceLogoUrl)) {
           mergedConfig.provinceLogoUrl = DEFAULT_PROVINCE_LOGO_URL;
           shouldPersistNormalizedConfig = true;
         }
